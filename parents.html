@@ -20,13 +20,10 @@ padding: 8px; margin: 5px 0; }
     </style>
 </head>
 <body>
-<button class="back-btn"
-onclick="history.back()">⬅ Back</button>
-...
-...
+<button class="back-btn" onclick="history.back()">⬅ Back</button>
+
 <h2>Parents List</h2>
-<button
-onclick="showAddForm()">➕ Add Parent</button>
+<button onclick="showAddForm()">➕ Add Parent</button>
 
 <table>
     <thead>
@@ -47,8 +44,7 @@ onclick="showAddForm()">➕ Add Parent</button>
 <!-- ADD / EDIT FORM -->
 <div
 id="form" class="form-box" style="display:none;">
-    <h3 id="formTitle">Add
-Parent</h3>
+    <h3 id="formTitle">Add Parent</h3>
 
     <input type="hidden" id="parentId">
 
@@ -71,128 +67,89 @@ onclick="cancelForm()">Cancel</button>
 
 <script>
     // Load parents from localStorage
-...
-...
-    function
-loadParents() {
-        let parents = JSON.parse(localStorage.getItem("parents")) ||
-[];
+
+    function loadParents() {
+        let parents = JSON.parse(localStorage.getItem("parents")) || [];
         let table = document.getElementById("parentTable");
-       
-table.innerHTML = "";
+        table.innerHTML = "";
 
         parents.forEach((p, index) => {
-           
-table.innerHTML += `
+            table.innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
-         
-          <td>${p.name}</td>
+                    <td>${p.name}</td>
                     <td>${p.email}</td>
-          
-         <td>${p.phone}</td>
+                    <td>${p.phone}</td>
                     <td>
-                       
-<button onclick="editParent(${p.id})">Edit</button>
-                       
-<button onclick="viewProfile(${p.id})">View</button>
+                        <button onclick="editParent(${p.id})">Edit</button>
+                        <button onclick="viewProfile(${p.id})">View</button>
                     </td>
-      
-         </tr>
+                </tr>
             `;
         });
     }
 
     function showAddForm() {
- 
-      document.getElementById("form").style.display = "block";
-       
-document.getElementById("formTitle").innerHTML = "Add Parent";
-       
-document.getElementById("parentId").value = "";
-        document.getElementById("name").value =
-"";
+        document.getElementById("form").style.display = "block";
+        document.getElementById("formTitle").innerHTML = "Add Parent";
+        document.getElementById("parentId").value = "";
+        document.getElementById("name").value = "";
         document.getElementById("email").value = "";
-       
-document.getElementById("phone").value = "";
+        document.getElementById("phone").value = "";
     }
 
     function cancelForm() {
-...
-...
-document.getElementById("form").style.display = "none";
+        document.getElementById("form").style.display = "none";
     }
 
-    function saveParent()
-{
+    function saveParent() {
         let id = document.getElementById("parentId").value;
-        let name
-= document.getElementById("name").value;
-        let email =
-document.getElementById("email").value;
-        let phone =
-document.getElementById("phone").value;
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let phone = document.getElementById("phone").value;
 
         if (!name || !email || !phone) {
-            alert("Please fill all
-fields");
+            alert("Please fill all fields");
             return;
         }
 
-        let parents =
-JSON.parse(localStorage.getItem("parents")) || [];
+        let parents = JSON.parse(localStorage.getItem("parents")) || [];
 
         if (id) {
             // EDIT
-         
-  let index = parents.findIndex(p => p.id == id);
-            parents[index] =
-{ id, name, email, phone };
+            let index = parents.findIndex(p => p.id == id);
+            parents[index] = { id, name, email, phone };
         } else {
             // ADD
-           
-parents.push({
+            parents.push({
                 id: Date.now(),
                 name,
-               
-email,
+                email,
                 phone
             });
         }
 
-       
-localStorage.setItem("parents", JSON.stringify(parents));
+        localStorage.setItem("parents", JSON.stringify(parents));
         loadParents();
-       
-cancelForm();
+        cancelForm();
     }
 
     function editParent(id) {
-        let parents =
-JSON.parse(localStorage.getItem("parents")) || [];
-        let p = parents.find(pr => pr.id
-...
-...
-== id);
+        let parents = JSON.parse(localStorage.getItem("parents")) || [];
+        let p = parents.find(pr => pr.id == id);
 
         document.getElementById("form").style.display = "block";
-       
-document.getElementById("formTitle").innerHTML = "Edit Parent";
+        document.getElementById("formTitle").innerHTML = "Edit Parent";
 
-       
-document.getElementById("parentId").value = p.id;
-       
-document.getElementById("name").value = p.name;
+        document.getElementById("parentId").value = p.id;
+        document.getElementById("name").value = p.name;
         document.getElementById("email").value = p.email;
-  
-     document.getElementById("phone").value = p.phone;
+        document.getElementById("phone").value = p.phone;
     }
 
-    function
-viewProfile(id) {
+    function viewProfile(id) {
         window.location.href = "parent_profile1.html?id=" + id;
-  
- }
+    }
 
     // Load table initially
     loadParents();
