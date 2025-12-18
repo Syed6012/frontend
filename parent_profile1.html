@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parent Profile</title>
+    <style>
+    
+   body { font-family: Arial; margin: 20px; }
+        .profile-box {
+          
+ border: 1px solid #ccc;
+            width: 350px;
+            padding: 15px;
+ 
+          color:rgb(0, 92, 57)
+        }
+        .back-btn {
+           
+padding: 5px 10px;
+            margin-bottom: 15px;
+            color:rgb(137, 43,
+226)
+        }
+    </style>
+</head>
+<body>
+
+<button class="back-btn"
+onclick="history.back()">⬅ Back</button>
+
+<h2>Parent Profile</h2>
+<div class="profile-box">
+  
+ <p><b>Name:</b> <span id="pname"></span></p>
+    <p><b>Email:</b> <span
+id="pemail"></span></p>
+    <p><b>Phone:</b> <span
+id="pphone"></span></p>
+</div>
+
+<script>
+...
+...
+    const params = new URLSearchParams(window.location.search);
+    const
+id = params.get("id");
+
+    let parents =
+JSON.parse(localStorage.getItem("parents")) || [];
+    let p = parents.find(pr => pr.id == id);
+
+   
+document.getElementById("pname").innerHTML = p.name;
+   
+document.getElementById("pemail").innerHTML = p.email;
+    document.getElementById("pphone").innerHTML =
+p.phone;
+</script>
+
+</body>
+</html>
