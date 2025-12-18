@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parents Module</title>
+    <style>
+    
+   body { font-family: Arial; margin: 20px; color:rgb(112, 112, 226) }
+       
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+       
+table, th, td { border: 1px solid #ddd;color:black }
+        th, td { padding: 10px;
+text-align: left; }
+        button { padding: 5px 10px; margin-right: 5px;
+cursor: pointer; color:rgb(0, 0, 0) }
+        .form-box { border: 1px solid #ccc;
+padding: 15px; width: 300px; margin-top: 20px; }
+        input { width: 100%;
+padding: 8px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+<button class="back-btn"
+onclick="history.back()">⬅ Back</button>
+...
+...
+<h2>Parents List</h2>
+<button
+onclick="showAddForm()">➕ Add Parent</button>
+
+<table>
+    <thead>
+        <tr>
+         
+  <th>#</th>
+            <th>Parent Name</th>
+            <th>Email</th>
+      
+     <th>Phone</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+   
+<tbody id="parentTable"></tbody>
+</table>
+
+<!-- ADD / EDIT FORM -->
+<div
+id="form" class="form-box" style="display:none;">
+    <h3 id="formTitle">Add
+Parent</h3>
+
+    <input type="hidden" id="parentId">
+
+    <label>Name</label>
+    <input
+type="text" id="name">
+
+    <label>Email</label>
+    <input type="email"
+id="email">
+
+    <label>Phone</label>
+    <input type="text" id="phone">
+
+    <button
+onclick="saveParent()">Save</button>
+    <button
+onclick="cancelForm()">Cancel</button>
+</div>
+
+<script>
+    // Load parents from localStorage
+...
+...
+    function
+loadParents() {
+        let parents = JSON.parse(localStorage.getItem("parents")) ||
+[];
+        let table = document.getElementById("parentTable");
+       
+table.innerHTML = "";
+
+        parents.forEach((p, index) => {
+           
+table.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+         
+          <td>${p.name}</td>
+                    <td>${p.email}</td>
+          
+         <td>${p.phone}</td>
+                    <td>
+                       
+<button onclick="editParent(${p.id})">Edit</button>
+                       
+<button onclick="viewProfile(${p.id})">View</button>
+                    </td>
+      
+         </tr>
+            `;
+        });
+    }
+
+    function showAddForm() {
+ 
+      document.getElementById("form").style.display = "block";
+       
+document.getElementById("formTitle").innerHTML = "Add Parent";
+       
+document.getElementById("parentId").value = "";
+        document.getElementById("name").value =
+"";
+        document.getElementById("email").value = "";
+       
+document.getElementById("phone").value = "";
+    }
+
+    function cancelForm() {
+...
+...
+document.getElementById("form").style.display = "none";
+    }
+
+    function saveParent()
+{
+        let id = document.getElementById("parentId").value;
+        let name
+= document.getElementById("name").value;
+        let email =
+document.getElementById("email").value;
+        let phone =
+document.getElementById("phone").value;
+
+        if (!name || !email || !phone) {
+            alert("Please fill all
+fields");
+            return;
+        }
+
+        let parents =
+JSON.parse(localStorage.getItem("parents")) || [];
+
+        if (id) {
+            // EDIT
+         
+  let index = parents.findIndex(p => p.id == id);
+            parents[index] =
+{ id, name, email, phone };
+        } else {
+            // ADD
+           
+parents.push({
+                id: Date.now(),
+                name,
+               
+email,
+                phone
+            });
+        }
+
+       
+localStorage.setItem("parents", JSON.stringify(parents));
+        loadParents();
+       
+cancelForm();
+    }
+
+    function editParent(id) {
+        let parents =
+JSON.parse(localStorage.getItem("parents")) || [];
+        let p = parents.find(pr => pr.id
+...
+...
+== id);
+
+        document.getElementById("form").style.display = "block";
+       
+document.getElementById("formTitle").innerHTML = "Edit Parent";
+
+       
+document.getElementById("parentId").value = p.id;
+       
+document.getElementById("name").value = p.name;
+        document.getElementById("email").value = p.email;
+  
+     document.getElementById("phone").value = p.phone;
+    }
+
+    function
+viewProfile(id) {
+        window.location.href = "parent_profile1.html?id=" + id;
+  
+ }
+
+    // Load table initially
+    loadParents();
+</script>
+
+</body>
+</html>
